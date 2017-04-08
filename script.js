@@ -107,18 +107,19 @@ function move() {
 
   switch(direction) {
     case 'x-':
-      newUnit = document.getElementsByClassName('cell-' + (coordX - 1) + '-' + coordY)[0];
+      coordX = (coordX - 1 < 0 ? FIELD_SIZE_X - 1 : coordX - 1);
       break;
     case 'x+':
-      newUnit = document.getElementsByClassName('cell-' + (coordX + 1) + '-' + coordY)[0];
+      coordX = (coordX + 1 >= FIELD_SIZE_X ? 0 : coordX + 1);
       break;
     case 'y-':
-      newUnit = document.getElementsByClassName('cell-' + coordX + '-' + (coordY - 1))[0];
+      coordY = (coordY - 1 < 0 ? FIELD_SIZE_Y - 1 : coordY - 1);
       break;
     case 'y+':
-      newUnit = document.getElementsByClassName('cell-' + coordX + '-' + (coordY + 1))[0];
+      coordY = (coordY + 1 >= FIELD_SIZE_Y ? 0 : coordY + 1);
       break;
   }
+  newUnit = document.getElementsByClassName('cell-' + coordX + '-' + coordY)[0];
 
   if(newUnit !== undefined && !newUnit.classList.contains('snake-unit') && !newUnit.classList.contains('obstacle-unit')) {
     newUnit.classList.add('snake-unit');
@@ -155,8 +156,8 @@ function createFood() {
       foodCreated = true;
     }
   }
-  deleteObstacle();
-  setTimeout(createObstacle, SNAKE_SPEED*2);
+  setTimeout(deleteObstacle, SNAKE_SPEED*2);
+  setTimeout(createObstacle, SNAKE_SPEED*3);
 }
 
 function deleteObstacle() {
